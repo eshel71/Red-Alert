@@ -1,0 +1,74 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:Controls="clr-namespace:MvvmWpfApp.Controls"
+    xmlns:viewModels="clr-namespace:MvvmWpfApp.ViewModels"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:quickType="clr-namespace:QuickType"
+    x:Class="MvvmWpfApp.Views.NewReportFormView"
+    mc:Ignorable="d"
+    Background="{DynamicResource MaterialDesignPaper}"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextElement.FontWeight="Medium"
+    TextElement.FontSize="18"
+    d:DesignHeight="700" d:DesignWidth="600" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <quickType:ResultConverter x:Key="ResultConverter" />
+    </UserControl.Resources>
+
+    <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect SlideInFromRight}">
+        <materialDesign:Card  Margin="10" HorizontalAlignment="Left" d:DataContext="{d:DesignInstance Type=viewModels:NewReportFormVM}">
+            <StackPanel Orientation="Vertical">
+                <Grid  Margin="10" x:Name="Grid1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" Grid.Column="0" Content="Name:"/>
+                    <TextBox x:Name="NameTextBox" Grid.Row="0" TextChanged="SaveEnableCheck" materialDesign:HintAssist.Hint="Enter Name Here" Width="250" VerticalAlignment="Center" Text="{Binding Report.Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  Margin="3"  HorizontalAlignment="Left" Grid.Column="1"/>
+
+                    <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" Grid.Column="0" Content="Address:"/>
+                    <Controls:GeoLocationAutoComplete x:Name="AddressTextBox" TextChenged="SaveEnableCheck"
+                                                      materialDesign:HintAssist.Hint="Enter Address Here" Width="250"
+                                                      VerticalAlignment="Center"
+                                                      SelectedChanged="AddressTextBox_OnSelectedChanged"
+                                                      Grid.Row="1" Margin="3" HorizontalAlignment="Left"
+                                                      Grid.Column="1" />
+
+                    <Label VerticalAlignment="Center" Grid.Row="3" Margin="3" Grid.Column="0" Content="Explosions Amount:"/>
+                    <TextBox x:Name="NumOfExplosionsTextBox"  Grid.Row="3" TextChanged="SaveEnableCheck" materialDesign:HintAssist.Hint="Between 1-infinity " Width="250" VerticalAlignment="Center" Text="{Binding Report.NumOfExplosions, Mode=TwoWay}" Margin="3"  HorizontalAlignment="Left" Grid.Column="1"/>
+
+                    <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" Grid.Column="0" Content="Time:"/>
+                    <xctk:DateTimePicker x:Name="TimeDatePicker" CalendarWidth="400" VerticalAlignment="Center" Width="250" Value="{Binding Report.Time, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="1"/>
+                </Grid>
+                <Separator/>
+                <DockPanel Margin="3" x:Name="ActionsPanel">
+
+                    <Controls:ActionButton 
+                        Text="Report"  x:Name="SaveButton" 
+                        DockPanel.Dock="Bottom"
+                        State="origin"  Icon="rocket" HorizontalAlignment="Center"                                           
+                        Style="{StaticResource MaterialDesignRaisedButton}" />
+
+                    <Controls:ActionButton 
+                         HorizontalAlignment="Center" ButtonClick="ResetForm"
+                        Text="Reset" State="flat" Icon="refresh" Style="{StaticResource MaterialDesignFlatButton}"/>
+                </DockPanel>
+            </StackPanel>
+        </materialDesign:Card>
+    </materialDesign:TransitioningContent>
+
+</UserControl>
